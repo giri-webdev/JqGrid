@@ -1,0 +1,269 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>JqGrid Demo</h2>
+<script type="text/javascript" src="~/Scripts/JqGrid/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-ui-1.10.4.js"></script>
+<link href="~/Content/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/JqGrid/js/jquery.jqGrid.min.js"></script>
+<link href="~/Scripts/JqGrid/css/ui.jqgrid.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/JqGrid/js/i18n/grid.locale-en.js"></script>
+
+<!-- Favorite theme -->
+@{
+    if(HttpContext.Current.Session["FavTheme"] != null)
+{
+       string str =Convert.ToString(HttpContext.Current.Session["FavTheme"]);
+
+       if(str=="Redmond")
+        {
+             <text>
+                 <link href="~/App_Themes/Redmond/jquery-ui.css" rel="stylesheet" />
+             </text>
+        }
+        else if(str == "Flick")
+        {
+             <text>
+                <link href="~/App_Themes/Flick/jquery-ui.css" rel="stylesheet" />
+             </text>
+        }
+        else if(str == "Cupertino")
+        {
+            <text>
+             <link href="~/App_Themes/Cupertino/jquery-ui.css" rel="stylesheet" />
+            </text>
+        }
+         else if(str == "Start")
+        {
+            <text>
+            <link href="~/App_Themes/Start/jquery-ui.css" rel="stylesheet" />
+            </text>
+        }
+         else if(str == "Smoothness")
+        {
+            <text>
+            <link href="~/App_Themes/Smoothness/jquery-ui.css" rel="stylesheet" />
+            </text>
+        }
+}
+}
+
+<!--End of favorite theme-->
+
+
+<div>
+<label>Favorite Theme:</label>
+<select onchange="FavoriteThemeFun(this);" id="drp_favtheme">
+<option>--Select--</option>
+<option>Redmond</option>
+<option>Flick</option>
+<option>Cupertino</option>
+<option>Start</option>
+<option>Smoothness</option>
+</select>
+</div>
+
+<div id="div-dialog"></div>
+<table id="tbl_jqgrid"></table>
+<div  id="div_jqgpager"></div>
+
+<script type="text/javascript">
+
+    var previd;
+
+    var uresult;
+
+    $(function()
+    {
+        $('#tbl_jqgrid').jqGrid(
+                 {
+                     url: '/Home/GetEmployees',
+                     datatype: 'json',
+                     mtype: 'POST',
+                     colNames: ['ID', 'Name', 'Age', 'Salary'],
+                     colModel: [
+                         //{ name: 'action', index: 'action', sortable:false, formatter: Buttons},
+                         { name: 'ID', index: 'ID', width: 150, stype: 'text'},
+                         { name: 'Name', index: 'Name', width: 150,editable:true },
+                         { name: 'Age', index: 'Age', width: 150, editable:true },
+                         { name: 'Salary', index: 'Salary', width: 150, editable:true }
+                     ],
+                     rowNum: 10,
+                     sortname: 'ID',
+                     width:'auto',
+                     height:'auto',
+                     viewrecords: true,
+                     rowList: [10, 20, 30],
+                     pager: $('#div_jqgpager'),
+                     sortorder: 'desc',
+                     caption: 'Employees List',
+                     scrollOffset: 0,
+                     ondblClickRow: function (id) {
+                         if (id && id !== previd) {
+                             var rowData = $('#tbl_jqgrid').getRowData(id);
+                             $('#tbl_jqgrid').restoreRow(previd);
+                             $('#tbl_jqgrid').editRow(id, true, null, onSaveSuccess, '/Home/Update', {EmpId: rowData.ID});
+                             previd = id;
+                         }
+                     }
+                   
+                     //afterSubmit: function (response, postdata) {
+                     //    var result = jQuery.parseJSON(response.responseText);
+                     //} 
+                 });
+
+        $('#tbl_jqgrid').navGrid('#div_jqgpager', {
+                            edit: false,
+                            add: true,
+                            del: true,
+                            search: true,
+                            view: true,
+                            viewtext:'view',
+                            searchtext: "Search",
+                            addtext: "Add",
+                            //edittext: "Edit",
+                            deltext:"Delete"
+        },
+
+//edit
+{
+    onclickSubmit: function (eparams) {
+
+        alert('submit clicked');
+    }
+},
+//Add
+{
+    url: '/Home/Add',
+    closeAfterAdd: true,
+    bSubmit: 'Add Employee',
+    afterComplete: function (response, postdata) {
+        MessageFun(response.responseText);
+    },
+   reloadAfterSubmit:true
+    //beforeShowForm: function (form) { alert('hello'); }
+
+},
+//Delete
+{
+    url: '/Home/Delete',
+    caption: 'Delete Employee',
+    msg: 'Do you want to delete selected employee ?',
+    bSubmit: 'Delete Employee',
+    width: 'auto',
+    height: 'auto',
+    closeAfterDelete: true,
+    onclickSubmit: function(eparams)
+    {
+        var gr = jQuery("#tbl_jqgrid").jqGrid('getGridParam', 'selrow');
+        var val = jQuery('#tbl_jqgrid').jqGrid('getCell', gr, 'ID');
+        return {ID:val};
+    },
+    reloadAfterSubmit: true,
+    //afterSubmit: function (response, postdata) {
+      
+    //    //$("#tbl_jqgrid").trigger("reloadGrid");
+    //    return [response.responseText == 'OK', response.responseText];
+    //},
+    afterComplete: function (response, postdata) {
+        MessageFun(response.responseText);
+    }
+   
+},
+//Search
+{
+    caption: 'Search employee',
+    Find: 'Search',
+    showQuery: true,
+    sopt: ['eq', 'ne', 'cn', 'bw', 'ew']
+    //onSearch: function (rowid) {
+    //    alert('search');
+    //}
+},
+//View
+{
+   caption:'View employee'
+}
+);      
+    });
+
+    function onSaveSuccess(xhr) 
+    {
+        var result = xhr.responseText;
+
+        //validation errors
+        if (result.indexOf("successfully.") == -1) {
+            var array = result.split(',');
+            var ul = $('<ul style="color:red;"><li>Please correct the following errors:</li></ul>');
+            for (var i = 0; i < array.length; i++)
+                $(ul).append('<li>' + array[i] + '</li>');
+
+            MessageFun(ul);
+            return false;
+        }
+        else {
+ 
+            var ul = $('<ul style="color:green;"><li>' + result + '</li></ul>');
+            MessageFun(ul);
+            return true;
+        }
+        }
+        
+    function MessageFun(msg) {
+
+        $('#div-dialog').show();
+        $('#div-dialog').html(msg).hide(8000);
+    }
+
+</script>
+
+<!-- Favorite theme  -->
+<script type="text/javascript">
+
+    $(function () {
+     
+        var cokie = document.cookie;
+      
+        if (cokie != "") {
+         
+            var array = cokie.split('=');
+            var theme = array[array.length - 1];
+
+            var drp = document.getElementById('drp_favtheme');
+
+            for (var i = 0; i < drp.options.length; i++) {
+
+                if (drp.options[i].text == theme) {
+                    drp.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+        
+    });
+
+    function FavoriteThemeFun(drp) {
+
+        var theme = $(drp).find('option:selected').text();
+        document.cookie = "favetheme=" + theme;
+
+        $.ajax({
+            type: 'get',
+            url: '/Home/FavoriteTheme',
+            data: { Theme: theme },
+            dataType: "json",
+            success: function (data) {
+                location.href = "/Home/Index";
+            },
+            error: function (data) {
+                location.href = "/Home/Index";
+            }
+        });
+    }
+
+</script>
+
+
+
+

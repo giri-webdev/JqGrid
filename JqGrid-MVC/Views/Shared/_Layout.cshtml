@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+    //With Paging
+
+    //jQuery("#tbl_jqgrid").jqGrid({
+    //    url: '/Home/GetEmployees',
+    //    datatype: 'json',
+    //    mtype: 'GET',
+    //    ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+    //    serializeGridData: function (postData) {
+    //        return JSON.stringify(postData);
+    //    },
+    //    jsonReader: {
+    //        root: function (obj) { return obj.d.rows; },
+    //        page: function (obj) {
+    //            alert(obj.page);
+    //            return obj.d.page;
+    //        },
+    //        total: function (obj) { return obj.d.total; },
+    //        records: function (obj) {
+    //            alert(obj.page);
+    //            return obj.d.records;
+    //        }
+    //    },
+    //    colModel: [
+    //                               { name: 'ID', index: 'ID', width: 150 },
+    //                               { name: 'Name', index: 'Name', width: 150, stype: 'text', sortable: true, editable: true },
+    //                               { name: 'Age', index: 'Age', width: 150, editable: true },
+    //                               { name: 'Salary', index: 'Salary', width: 150, editable: true }
+    //    ],
+    //    height: 'auto',
+    //    rowNum: 10,
+    //    rowList: [10, 20, 30],
+    //    pager: '#div_jqgpager',
+    //    sortname: 'ID',
+    //    viewrecords: true,
+    //    gridview: true,
+    //    rownumbers: true,
+    //    sortorder: "asc",
+    //    caption: "JqGrid Demo"
+    //});
+
+    //jQuery("#tbl_jqgrid").jqGrid('navGrid', '#div_jqgpager', { edit: false, add: false, del: false });
+
+    //function DoSearch() {
+    //    var searchTerm = document.getElementById('txt_search').value;
+    //    $('#tbl_jqgrid').jqGrid('setGridParam', { url: "GetEmployees?_search=true&_searchTerm=" + searchTerm }).trigger("reloadGrid");
+    //}
+
+
+    //$(function () {
+
+    //    jQuery('#tbl_jqgrid').setGridParam({ records: 30 });
+    //});
+
+//end of paging
+
+
+//    $(function () {
+
+//        $('#tbl_jqgrid').jqGrid(
+//            {
+//                url: '/Home/GetEmployees',
+//                datatype: 'json',
+//                mtype: 'GET',
+//                colNames: ['ID', 'Name', 'Age', 'Salary'],
+//                colModel: [
+//                    //{ name: 'action', index: 'action', sortable:false, formatter: Buttons},
+//                    { name: 'ID', index: 'ID', width: 150, stype: 'text' },
+//                    { name: 'Name', index: 'Name', width: 150 },
+//                    { name: 'Age', index: 'Age', width: 150 },
+//                    { name: 'Salary', index: 'Salary', width: 150 }
+//                ],
+//                rowNum: 10,
+//                sortname: 'ID',
+//                viewrecords: true,
+//                rowList: [10, 20, 30],
+//                pager: $('#pager1'),
+//                sortorder: 'desc',
+//                caption: 'Employees List',
+//                scrollOffset: 0
+//            });
+
+
+//$('#tbl_jqgrid').navGrid('#pager1', {
+//                edit: true,
+//                add: true,
+//                del: true,
+//                search: true,
+//                searchtext: "Search",
+//                addtext: "Add",
+//                edittext: "Edit",
+//                deltext:"Delete"
+//            });	
+//    });
+
+//    function Buttons() {
+
+//        var edit = "<input style='...' type='button' value='Edit' onclick=\"jQuery('#theGrid').editRow('" + options.rowId + "');\"  />",
+//               save = "<input style='...' type='button' value='Save' onclick=\"jQuery('#theGrid').saveRow('" + options.rowId + "');\"  />",
+//               restore = "<input style='...' type='button' value='Restore' onclick=\"jQuery('#theGrid').restoreRow('" + options.rowId + "');\" />";
+//        return edit + save + restore;
+//    }
+</script>
+
+ <script type="text/javascript">
+
+     //$(function () {
+
+     //jQuery("#tbl_jqgrid").jqGrid({
+     //    url: '/Home/GetEmployees',
+     //    datatype: "json",
+     //    colNames: ['ID', 'Name', 'Age', 'Salary'],
+     //    colModel: [
+     //                { name: 'ID', index: 'ID', width: 150 },
+     //                { name: 'Name', index: 'Name', width: 150, stype: 'text', sortable: true, editable: true },
+     //                { name: 'Age', index: 'Age', width: 150, editable: true },
+     //                { name: 'Salary', index: 'Salary', width: 150, editable: true }
+     //    ],
+     //    rowNum: 10,
+     //    mtype: 'GET',
+     //    gridview: true,
+     //    rownumbers:false,
+     //    loadonce:true,
+     //    rowList: [10, 20, 30],
+     //    pager: '#div_jqgpager',
+     //    sortname: 'ID',
+     //    viewrecords: true,
+     //    sortorder: 'desc',
+     //    caption: "List Employee Details",
+     //    editurl: '/Home/GetEmployees'
+     //});
+
+     //$('#jQGridDemo').jqGrid('navGrid', '#div_jqgpager',
+     //           {
+     //               edit: true,
+     //               add: true,
+     //               del: true,
+     //               search: true,
+     //               searchtext: "Search",
+     //               addtext: "Add",
+     //               edittext: "Edit",
+     //               deltext: "Delete"
+     //           },
+     //           {   //EDIT
+     //           //                           height: 900,
+     //           //                           width: 400,
+     //           //                           top: 50,
+     //           //                           left: 100,
+     //           //                           dataheight: 280,
+     //               closeOnEscape: true,//Closes the popup on pressing escape key
+     //               reloadAfterSubmit: true,
+     //               drag: true,
+     //               afterSubmit: function (response, postdata) {
+     //                   if (response.responseText == "") {
+
+     //                       $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid');//Reloads the grid after edit
+     //                       return [true, '']
+     //                   }
+     //                   else {
+     //                       $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid'); //Reloads the grid after edit
+     //                       return [false, response.responseText]//Captures and displays the response text on th Edit window
+     //                   }
+     //               },
+     //               editData: {
+     //                   EmpId: function () {
+     //                       var sel_id = $('#tbl_jqgrid').jqGrid('getGridParam', 'selrow');
+     //                       var value = $('#tbl_jqgrid').jqGrid('getCell', sel_id, '_id');
+     //                       return value;
+     //                   }
+     //               }
+     //           },
+     //           {
+     //               closeAfterAdd: true,//Closes the add window after add
+     //               afterSubmit: function (response, postdata) {
+     //                   if (response.responseText == "") {
+
+     //                       $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')//Reloads the grid after Add
+     //                       return [true, '']
+     //                   }
+     //                   else {
+     //                       $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')//Reloads the grid after Add
+     //                       return [false, response.responseText]
+     //                   }
+     //               }
+     //           },
+     //           {   //DELETE
+     //               closeOnEscape: true,
+     //               closeAfterDelete: true,
+     //               reloadAfterSubmit: true,
+     //               closeOnEscape: true,
+     //               drag: true,
+     //               afterSubmit: function (response, postdata) {
+     //                   if (response.responseText == "") {
+
+     //                       $("#tbl_jqgrid").trigger("reloadGrid", [{ current: true }]);
+     //                       return [false, response.responseText]
+     //                   }
+     //                   else {
+     //                       $(this).jqGrid('setGridParam', { datatype: 'json' }).trigger('reloadGrid')
+     //                       return [true, response.responseText]
+     //                   }
+     //               },
+     //               delData: {
+     //                   EmpId: function () {
+     //                       var sel_id = $('#tbl_jqgrid').jqGrid('getGridParam', 'selrow');
+     //                       var value = $('#tbl_jqgrid').jqGrid('getCell', sel_id, '_id');
+     //                       return value;
+     //                   }
+     //               }
+     //           },
+     //           {//SEARCH
+     //               closeOnEscape: true
+
+     //           }
+     //    );
+
+     //    $('.ui-pg-input').css('height', '15px');
+     //});
+
+    </script>
